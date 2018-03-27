@@ -13628,7 +13628,10 @@ It is a ratio of true positives(words classified as spam, and which are actually
 <p><strong>Strengths of the model:</strong>Once the model is built making predictions is fast and memory efficient.</p>
 <p><strong>Weaknesses of the model:</strong>Gradient boosting requires a significant amount of training time and computation.
 It requires careful tuning of parameters like learning rate and the number of estimators. It can often lead to overfitting if the number of estimators is not controlled.</p>
-<p><strong>Why this model is good candidate:</strong>Gradient boosting is an ensemble technique and ensemble techniques generally performs well in these type of problems.In Gradient boosting subsequent predictors learn from the mistakes of the previous predictors.Therefore, the observations have an unequal probability of appearing in subsequent models and ones with the highest error appear most.
+<p><strong>Why this model is good candidate:</strong>When we try to predict the target variable using any machine learning technique, the main causes of difference in actual and predicted values are <strong>noise, variance, and bias</strong>. Ensemble helps to reduce these factors (<strong>except noise</strong>, which is irreducible error)<br>
+   Gradient boosting is an ensemble technique and ensemble techniques generally performs well in these type of problems because in this datset feature and records with missing or ill-formatted entries have been removed as stated in <strong>Getting Started</strong> Section in the notebook.<br>
+   Gradient boosting performs poorly where data and features are noisy.<br>
+   In Gradient boosting subsequent predictors learn from the mistakes of the previous predictors.Therefore, the observations have an unequal probability of appearing in subsequent models and ones with the highest error appear most.
    <strong><a href="https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d">Reference </a></strong></p>
 <h4 id="Random-Forest:">Random Forest:<a class="anchor-link" href="#Random-Forest:">&#182;</a></h4><p><strong>Real World Application in Industry:</strong></p>
 <ul>
@@ -13643,7 +13646,16 @@ It requires careful tuning of parameters like learning rate and the number of es
 <li>The Random Forest algorithm can be used for identifying the most important features from the training dataset.</li>
 </ul>
 <p><strong>Weaknesses of the model:</strong>Random forrests are like black boxes that are very hard to interpret.Random forrest is not much memory efficient.</p>
-<p><strong>Why this model is good candidate:</strong> Random Forest is also an Ensemble technique and its very rare that Random Forest performs poorly.The overfitting problem will never come when we use the random forest algorithm in any classification problem.</p>
+<p><strong>Why this model is good candidate:</strong> Random Forest is also an Ensemble technique and its very rare that Random Forest performs poorly.It is difficult to overfit Random Forest model because it creates a set of decision trees from randomly selected subset of training set. It then aggregates the votes from different decision trees to decide the final class of the test object.So the number of trees controls the generality of the model i.e.the more trees the better.
+   <br>
+   But it would not be correct to say that overfitting is not possible in Random Forest .Overfitting is possible in Random forrest when</p>
+<ul>
+<li>the dept of trees is not rstricted which tends to create complex decission trees.</li>
+<li><p>training data in enough to train the model(Which is not in this case).</p>
+<p><strong><a href="http://mechanicalforex.com/2016/09/hidden-consequences-of-classification-model-overfitting-in-random-forests.html">Reference </a></strong></p>
+</li>
+</ul>
+<p><br></p>
 <h4 id="Support-Vector-Machine:">Support Vector Machine:<a class="anchor-link" href="#Support-Vector-Machine:">&#182;</a></h4><p><strong>Real World Application in Industry:</strong>
    Applications of SVM are:</p>
 <ul>
@@ -14662,16 +14674,22 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <p><strong>Answer: </strong></p>
 <p>Gradient Boosting Classifier is an ensemble technique in which a collection of predictors which come together to give a final prediction. Ensembling techniques are further classified into Bagging and Boosting and Gradient Boosting Classifier as the name suggest belongs to Boosting category.<br>
 In Gradient Boosting a series of models are built where each model is trained to correct the mistakes of the previous model.<br>
+Gradient Boosting is an sequetial boosting technique where it works on reducing errors sequentially.<br></p>
+<p><img src="gradient_boosting.png">
 It uses lots of shallow trees called weak learners build in a non-random way to create a model that makes fewer and fewer mistakes as more trees are added.
 <br>
-Once the model is built, the predictions are faster and don't use a lot of memory.<br>
- The number of estimators is an important parameter in controlling model complexity.If the estimators are too many then it may lead to overfitting.<br>
+A weak learner is defined to be a classifier that is only slightly correlated with the true classification (it can label examples better than random guessing).
+<br>
+Boosting then combines all the weak learners into a single strong learner.<br></p>
+<p>The number of estimators is an important parameter in controlling model complexity.If the estimators are too many then it may lead to overfitting.<br>
 Learning rate controls how each model tries to correct remaining mistakes from the previous round.
 <br></p>
 <ul>
 <li>High Learning Rate means more complex models.</li>
 <li>Low Learning Rate means simple models.</li>
 </ul>
+<p>Once the model is built, the predictions are faster and don't use a lot of memory.<br></p>
+<p><strong><a href="https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d">Reference </a></strong></p>
 
 </div>
 </div>
@@ -15668,8 +15686,28 @@ F-score on testing data: 0.7249
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>F-score reduced from 0.7531 to 0.7249 i.e. 0.0282 and accuracy reduced from 87.08% to 85.88% i.e. 1.2%.
-So if traing time is an important factor than the number of potential donors that I would consider using the reduced training set as training time is reduced from 10.16s to 4.15s.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Metric</th>
+<th style="text-align:center">When all features are used</th>
+<th style="text-align:center">When only top 5 features are used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Accuracy Score</td>
+<td style="text-align:center">0.8708</td>
+<td style="text-align:center">0.8588</td>
+</tr>
+<tr>
+<td style="text-align:center">F-score</td>
+<td style="text-align:center">0.7531</td>
+<td style="text-align:center">0.7249</td>
+</tr>
+</tbody>
+</table>
+<p>F-score reduced from 0.7531 to 0.7249 i.e. 0.0282 and accuracy reduced from 87.08% to 85.88% i.e. 1.2%.<br>
+So if traing time is an important factor than the number of potential donors that <strong>I would consider</strong> using the reduced training set as training time is reduced from 10.16s to 4.15s.</p>
 
 </div>
 </div>
